@@ -1,0 +1,31 @@
+sym.local {
+
+    tls internal
+    file_server
+
+    root * /home/symfony2601/public
+    php_fastcgi symfony2601:9000
+    encode gzip
+
+
+    # Правильные MIME-типы для Swagger UI
+    header {
+        # JS
+        /bundles/nelmioapidoc/swagger-ui/*.js Content-Type "application/javascript; charset=utf-8"
+        # CSS
+        /bundles/nelmioapidoc/swagger-ui/*.css Content-Type "text/css; charset=utf-8"
+    }
+
+}
+
+
+lara2602.local {
+
+    tls internal
+    file_server
+    encode gzip
+
+    php_fastcgi 2602laravel_test2:9000
+    root * /home/2602test_laravel/public
+
+}
