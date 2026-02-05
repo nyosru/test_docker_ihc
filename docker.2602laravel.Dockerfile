@@ -1,10 +1,8 @@
-#FROM dockerhub.timeweb.cloud/library/node:latest AS node
-FROM node:latest AS node
-#FROM dockerhub.timeweb.cloud/library/php:8.2-fpm
 FROM php:8.2-fpm
 
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
+# Копируем node из образа (если нужно)
+COPY --from=node:latest /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node:latest /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Устанавливаем последнюю версию npm
@@ -19,34 +17,32 @@ ENV PHPUSER=${PHPUSER}
 ENV FOLDER=${FOLDER}
 
 WORKDIR ${FOLDER}
-USER ${PHPUSER}
 
 # Установка необходимых пакетов и расширений PHP
 RUN apt-get update -y \
-    && apt-get install -y git libzip-dev libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip \
-    && docker-php-ext-enable zip
-
-# Установка расширения SOAP
- RUN docker-php-ext-install soap
-
-# Install GD extension
-RUN apt-get update \
-    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    && apt-get install -y git libzip-dev libxml2-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
-#
-RUN docker-php-ext-enable gd
+    && docker-php-ext-install pdo_mysql zip gd soap \
+    && docker-php-ext-enable zip gd
 
-# Увеличиваем лимиты загрузки файлов
-#RUN echo "upload_max_filesize = 100M\npost_max_size = 100M" > /usr/local/etc/php/conf.d/uploads.ini
-
-# # # Get latest Composer
-#COPY --from=dockerhub.timeweb.cloud/library/composer:latest /usr/bin/composer /usr/bin/composer
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Очистка кеша apt для уменьшения размера образа
+# Очистка
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-#RUN cd /home/2602test_laravel && chmod -R 0777 storage
-#RUN cd ${FOLDER} && chmod -R 0777 storage
+# ────────────────────────────────────────────────
+#  SQLite: создаём файл и устанавливаем правильные права
+# ────────────────────────────────────────────────
+
+RUN mkdir -p ${FOLDER}/database \
+    && touch ${FOLDER}/database/database.sqlite \
+    && chown -R www-data:www-data ${FOLDER}/database \
+    && chmod -R 775 ${FOLDER}/database \
+    && chmod 666 ${FOLDER}/database/database.sqlite
+
+# Права на storage и bootstrap/cache (очень важно для Laravel)
+RUN chown -R www-data:www-data ${FOLDER}/storage ${FOLDER}/bootstrap/cache \
+    && chmod -R 775 ${FOLDER}/storage ${FOLDER}/bootstrap/cache
+
+USER www-data
