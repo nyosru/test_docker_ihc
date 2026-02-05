@@ -42,7 +42,7 @@ RUN mkdir -p ${FOLDER}/database \
     && chmod 666 ${FOLDER}/database/database.sqlite
 
 # Права на storage и bootstrap/cache (очень важно для Laravel)
-RUN chown -R www-data:www-data ${FOLDER}/storage ${FOLDER}/bootstrap/cache \
-    && chmod -R 775 ${FOLDER}/storage ${FOLDER}/bootstrap/cache
+#RUN chown -R www-data:www-data ${FOLDER}/storage ${FOLDER}/bootstrap/cache \
+#    && chmod -R 775 ${FOLDER}/storage ${FOLDER}/bootstrap/cache
 
 USER www-data

@@ -1,22 +1,15 @@
 
 
 prod:
-#	git fetch origin
-#	git reset --hard origin/main
-	#@echo "+++0 удалить сеть laravel"
-	#make remove-laravel-network
 	@echo "+++ prod environment started"
 	make create_web_laravel
 	@echo "+++2 prod environment started"
-#	cp caddy/prod.Caddyfile caddy/Caddyfile
 	cp docker-compose.prod.yml docker-compose.yml
-	#docker-compose down --rmi all -v
 	docker-compose up -d --build
-	#make caddy_refresh_cfd_prod
-	#docker system prune --force
-
-
-
+	docker exec  php composer.phar i --no-dev
+	docker exec 2602test_laravel php artisan migrate
+	docker exec 2602test_laravel chown -R www-data:www-data ${FOLDER}/storage ${FOLDER}/bootstrap/cache
+    docker exec 2602test_laravel  chmod -R 775 ${FOLDER}/storage ${FOLDER}/bootstrap/cache
 
 
 dev:
@@ -27,19 +20,7 @@ dev:
 	docker-compose up -d --remove-orphans  $(if $(build),--build)
 	make caddy_refresh_cfd
 
-caddy_refresh_cfd:
-	#cp Caddyfile caddy/Caddyfile
-	docker exec caddy1 caddy fmt --overwrite /etc/caddy/Caddyfile
-	docker exec caddy1 caddy reload --config /etc/caddy/Caddyfile
 
-
-
-
-
-
-
-remove-laravel-network:
-	docker network rm laravel || echo "Network laravel_network does not exist"
 
 create_web_laravel:
 	@if ! docker network ls --format '{{.Name}}' | grep -w laravel > /dev/null; then \
@@ -49,32 +30,9 @@ create_web_laravel:
 		echo "++00 Docker network laravel already exists"; \
 	fi
 
+remove-laravel-network:
+	docker network rm laravel || echo "Network laravel_network does not exist"
 
-
-
-
-caddy_refresh_cfd_prod:
-	cp caddy/prod.Caddyfile caddy/Caddyfile
-	docker exec caddy caddy fmt --overwrite /etc/caddy/Caddyfile
-	docker exec caddy caddy reload --config /etc/caddy/Caddyfile
-
-
-
-
-prod_deploy:
-	git fetch origin
-	git reset --hard origin/main
-	#@echo "+++0 удалить сеть laravel"
-	#make remove-laravel-network
-	@echo "+++ prod environment started"
-	make create_web_laravel
-	@echo "+++2 prod environment started"
-#	cp caddy/prod.Caddyfile caddy/Caddyfile
-	cp docker-compose.prod.yml docker-compose.yml
-	docker-compose down --rmi all -v
-	docker-compose up -d --build
-	#make caddy_refresh_cfd_prod
-	#docker system prune --force
 
 
 
@@ -412,7 +370,7 @@ start00:
 	# docker-compose exec bu72_back composer i
 	# docker-compose exec bu72_back php artisan migrate
 
-	# docker-compose exec ttt72_laravel ls 
+	# docker-compose exec ttt72_laravel ls
 	# docker-compose exec caddy restart caddy
 
 	# docker-compose exec ttt72_laravel php composer.phar i --no-dev
@@ -420,7 +378,7 @@ start00:
 
 	# docker-compose exec ttt72_laravel php artisan migrate
 	docker exec ttt72_laravel php artisan migrate
-	
+
 	make caddy_refresh_cfd
 
 
