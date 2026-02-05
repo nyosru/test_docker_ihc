@@ -5,7 +5,7 @@ prod:
 	make create_web_laravel
 	@echo "+++2 prod environment started"
 	cp docker-compose.prod.yml docker-compose.yml
-	docker-compose up -d --build
+	docker compose up -d --build
 
 
 dev:
