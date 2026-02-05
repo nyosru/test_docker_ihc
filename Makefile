@@ -6,15 +6,7 @@ prod:
 	@echo "+++2 prod environment started"
 	cp docker-compose.prod.yml docker-compose.yml
 	docker-compose up -d --build
-	docker exec 2602test_laravel php composer i --no-dev
-	docker exec 2602test_laravel php artisan migrate
 
-	docker exec 2602test_laravel chown -R www-data:www-data storage
-
-#		chown -R www-data:www-data "bootstrap/cache"
-#
-#    docker exec 2602test_laravel  chmod -R 775 "storage" \\
-#    	chmod -R 775 "bootstrap/cache"
 
 dev:
 	@echo "Development environment started"
