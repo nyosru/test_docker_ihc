@@ -17,6 +17,11 @@ dev:
 	make caddy_refresh_cfd
 
 
+fix-permissions:
+	@echo "Исправляем права на database..."
+	docker exec 2602test_laravel chown -R www-data:www-data /home/2602test_laravel/database
+	docker exec 2602test_laravel chmod -R 775 /home/2602test_laravel/database
+	docker exec 2602test_laravel chmod 666 /home/2602test_laravel/database/database.sqlite
 
 create_web_laravel:
 	@if ! docker network ls --format '{{.Name}}' | grep -w laravel > /dev/null; then \
