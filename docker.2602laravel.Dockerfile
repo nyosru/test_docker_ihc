@@ -19,46 +19,16 @@ ENV FOLDER=${FOLDER}
 
 # ================= Установка зависимостей и расширений =================
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Для Chromium / Panther / WebDriver
-    chromium \
-    chromium-driver \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libxkbcommon0 \
-    libgbm1 \
-    libasound2 \
-    libdbus-1-3 \
-    libdrm2 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libxext6 \
-    libx11-6 \
-    libcairo2 \
-    libpango-1.0-0 \
-    libgtk-3-0 \
-    fonts-liberation \
-    libu2f-udev \
-    xdg-utils \
-    wget \
-    unzip \
-    ca-certificates \
-    git \
-    dbus \
-    libzip-dev \
-    libxml2-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev
-
-RUN apt-get update && apt-get install -y \
+    chromium chromium-driver \
+    libnss3 libatk1.0-0 libatk-bridge2.0-0 libxkbcommon0 libgbm1 libasound2 \
+    libdbus-1-3 libdrm2 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+    libxext6 libx11-6 libcairo2 libpango-1.0-0 libgtk-3-0 \
+    fonts-liberation libu2f-udev xdg-utils libxshmfence1 \
+    libzip-dev libxml2-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    git wget unzip ca-certificates dbus \
+    && \
     docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        pdo_mysql \
-        zip \
-        gd \
+    && docker-php-ext-install -j$(nproc) pdo_mysql zip gd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
