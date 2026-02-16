@@ -77,6 +77,6 @@ USER root
 RUN mkdir -p /var/www/.cache \
     && chmod -R 777 /var/www/.cache
 
-USER ${PHPUSER}
+#USER ${PHPUSER}
 
 WORKDIR ${FOLDER}

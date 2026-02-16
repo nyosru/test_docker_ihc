@@ -34,7 +34,7 @@ services:
     working_dir: ${FOLDER_2602LARAVEL_TEST_SERV}
     environment:
       - PHPGROUP=www-data
-      - PHPUSER=www-data
+#      - PHPUSER=www-data
       - FOLDER=${FOLDER_2602LARAVEL_TEST_SERV}
     restart: unless-stopped
     volumes:
