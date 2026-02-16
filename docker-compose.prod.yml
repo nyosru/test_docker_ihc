@@ -4,27 +4,28 @@ networks:
 
 services:
 
-  symfony2601:
-    container_name: symfony2601
-    networks:
-      - laravel
-    expose:
-      - 9000
-    build:
-      context: .
-      dockerfile: Symfony2601.Dockerfile
-    working_dir: ${FOLDER_SYMFONY2601_SERV}
-    environment:
-      - PHPGROUP=www-data
-      - PHPUSER=www-data
-      - FOLDER=${FOLDER_SYMFONY2601_SERV}
-    restart: unless-stopped
-    volumes:
-      - '${FOLDER_SYMFONY2601}:${FOLDER_SYMFONY2601_SERV}'
+#  symfony2601:
+#    container_name: symfony2601
+#    networks:
+#      - laravel
+#    expose:
+#      - 9000
+#    build:
+#      context: .
+#      dockerfile: Symfony2601.Dockerfile
+#    working_dir: ${FOLDER_SYMFONY2601_SERV}
+#    environment:
+#      - PHPGROUP=www-data
+#      - PHPUSER=www-data
+#      - FOLDER=${FOLDER_SYMFONY2601_SERV}
+#    restart: unless-stopped
+#    volumes:
+#      - '${FOLDER_SYMFONY2601}:${FOLDER_SYMFONY2601_SERV}'
 
 
   2602test_laravel:
     container_name: 2602test_laravel
+    shm_size: 1gb
     networks:
       - laravel
     build:
