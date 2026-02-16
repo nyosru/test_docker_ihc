@@ -20,8 +20,9 @@ ENV FOLDER=${FOLDER}
 # ================= Установка зависимостей и расширений =================
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Для Chromium / Panther / WebDriver
-    chromium \
-    chromium-driver \
+    # chromium \
+    # chromium-driver \
+    chromium=128.* chromium-driver=128.* \
     libnss3 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
