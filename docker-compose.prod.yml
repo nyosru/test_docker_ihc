@@ -39,3 +39,15 @@ services:
     restart: unless-stopped
     volumes:
       - '${FOLDER_2602LARAVEL_TEST}:${FOLDER_2602LARAVEL_TEST_SERV}'
+    healthcheck:
+      test: ["CMD", "php", "artisan", "about", "--no-interaction"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
