@@ -77,6 +77,10 @@ USER root
 RUN mkdir -p /var/www/.cache \
     && chmod -R 777 /var/www/.cache
 
+RUN mkdir -p /tmp/chrome-user-data \
+ && chmod -R 777 /tmp/chrome-user-data
+
+
 #USER ${PHPUSER}
 
 WORKDIR ${FOLDER}
