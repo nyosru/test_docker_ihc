@@ -92,4 +92,4 @@ exec php-fpm' > /usr/local/bin/start.sh \
     && chmod +x /usr/local/bin/start.sh
 
 # ================= Запуск =================
-CMD ["/usr/local/bin/start.sh"]
+#CMD ["/usr/local/bin/start.sh"]
