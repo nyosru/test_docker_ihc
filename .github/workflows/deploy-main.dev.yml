@@ -53,7 +53,7 @@ jobs:
             echo "✅ Код успешно обновлен"
             make prod
             echo "✅ Код успешно собран"
-            docker exec 2602test_laravel php composer i --no-dev
+            docker exec 2602test_laravel composer i 
             docker exec 2602test_laravel php artisan migrate
 
   sms_end:
