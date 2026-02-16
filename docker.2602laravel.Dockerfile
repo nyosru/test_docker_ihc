@@ -78,29 +78,15 @@ RUN apt-get update && apt-get install -y \
     libxshmfence1 \
     xdg-utils \
     --no-install-recommends \
- && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /run/dbus \
     && dbus-daemon --system --fork \
     && mkdir -p /tmp/chrome \
     && chmod -R 777 /tmp/chrome
 
-
 RUN apt update && apt install -y \
-    chromium \
-    chromium-driver \
-    dbus \
-    fonts-liberation \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libgbm1 \
-    libxshmfence1 \
     libglu1-mesa \
-    xdg-utils
-
 
 # ================= SYMLINKS =================
 RUN ln -s /usr/bin/chromium /usr/bin/google-chrome || true
