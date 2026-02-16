@@ -86,10 +86,8 @@ RUN mkdir -p /run/dbus \
 WORKDIR ${FOLDER}
 
 # ================= Запуск dbus (нужен для Chromium в некоторых случаях) =================
-RUN echo '#!/bin/bash\n\
-dbus-daemon --system --fork\n\
-exec php-fpm' > /usr/local/bin/start.sh \
-    && chmod +x /usr/local/bin/start.sh
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 # ================= Запуск =================
-#CMD ["/usr/local/bin/start.sh"]
+CMD ["/usr/local/bin/start.sh"]
