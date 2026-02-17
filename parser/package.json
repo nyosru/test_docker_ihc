@@ -1,0 +1,9 @@
+{
+  "name": "parser",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "playwright-core": "^1.42.0"
+  }
+}

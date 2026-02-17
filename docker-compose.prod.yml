@@ -4,23 +4,23 @@ networks:
 
 services:
 
-#  symfony2601:
-#    container_name: symfony2601
-#    networks:
-#      - laravel
-#    expose:
-#      - 9000
-#    build:
-#      context: .
-#      dockerfile: Symfony2601.Dockerfile
-#    working_dir: ${FOLDER_SYMFONY2601_SERV}
-#    environment:
-#      - PHPGROUP=www-data
-#      - PHPUSER=www-data
-#      - FOLDER=${FOLDER_SYMFONY2601_SERV}
-#    restart: unless-stopped
-#    volumes:
-#      - '${FOLDER_SYMFONY2601}:${FOLDER_SYMFONY2601_SERV}'
+  symfony2601:
+    container_name: symfony2601
+    networks:
+      - laravel
+    expose:
+      - 9000
+    build:
+      context: .
+      dockerfile: Symfony2601.Dockerfile
+    working_dir: ${FOLDER_SYMFONY2601_SERV}
+    environment:
+      - PHPGROUP=www-data
+      - PHPUSER=www-data
+      - FOLDER=${FOLDER_SYMFONY2601_SERV}
+    restart: unless-stopped
+    volumes:
+      - '${FOLDER_SYMFONY2601}:${FOLDER_SYMFONY2601_SERV}'
 
 
   2602test_laravel:
@@ -51,3 +51,18 @@ services:
           memory: 1G
         reservations:
           memory: 256M
+
+
+
+  parser:
+    container_name: parser_playwright
+    build: ./parser
+    #      context: ./praser
+    #      dockerfile: docker.parser.Dockerfile
+    shm_size: 256mb
+    networks:
+      - laravel
+    deploy:
+      resources:
+        limits:
+          memory: 512M
