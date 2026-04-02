@@ -20,16 +20,24 @@ jobs:
   sms_start:
     runs-on: ubuntu-latest
     steps:
-      - name: Send deployment start notification
-        uses: appleboy/telegram-action@master
-        with:
-          to: 360209578, phpcat
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            🚀🚀🚀 Начинаем деплой ${{ github.repository }}
-            👨🏻‍💻 ${{ github.actor }} (${{ github.run_id }})
-            📝 ${{ github.event.head_commit.message }}
-
+#      - name: Send deployment start notification
+#        uses: appleboy/telegram-action@master
+#        with:
+#          to: 360209578, phpcat
+#          token: ${{ secrets.TELEGRAM_TOKEN }}
+#          message: |
+#            🚀🚀🚀 Начинаем деплой ${{ github.repository }}
+#            👨🏻‍💻 ${{ github.actor }} (${{ github.run_id }})
+#            📝 ${{ github.event.head_commit.message }}
+      - name: sms_vk_start
+        run: |
+          curl -X POST "https://api.php-cat.com/api/vk/send" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "group_name": "tech",
+              "user_id": 5903492,
+              "message": "🚀🚀🚀 ${{ github.repository }} Старт деплоя \n 💻 ${{ github.actor }} (${{ github.run_id }}) \n 📝 ${{ github.event.head_commit.message }} "
+            }'
 
   deploy:
     runs-on: ubuntu-latest
@@ -63,13 +71,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-      - name: Send deployment success notification
-        uses: appleboy/telegram-action@master
-        with:
-          to: 360209578, phpcat
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            🍀🍀🍀 Успешный деплой ${{ github.repository }}
-            👨🏻‍💻 ${{ github.actor }} > ${{ github.run_id }}
-            📝 ${{ github.event.head_commit.message }}
-            🎉 Все задачи выполнены!
+#      - name: Send deployment success notification
+#        uses: appleboy/telegram-action@master
+#        with:
+#          to: 360209578, phpcat
+#          token: ${{ secrets.TELEGRAM_TOKEN }}
+#          message: |
+#            🍀🍀🍀 Успешный деплой ${{ github.repository }}
+#            👨🏻‍💻 ${{ github.actor }} > ${{ github.run_id }}
+#            📝 ${{ github.event.head_commit.message }}
+#            🎉 Все задачи выполнены!
+      - name: sms_vk
+        run: |
+          curl -X POST "https://api.php-cat.com/api/vk/send" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "group_name": "tech",
+              "user_id": 5903492,
+              "message": "🍀🍀🍀 ${{ github.repository }} Deployment finished \n ‍💻 ${{ github.ref_name }} ++ ${{ github.actor }} (${{ github.run_id }}) "
+            }'

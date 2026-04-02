@@ -1,0 +1,217 @@
+networks:
+  laravel:
+    external: true
+
+services:
+
+#  bitrix_php:
+#    #build: ./../2603bitrix_test/docker/php
+#    build:
+#      context: .
+#      dockerfile: docker.2603bitrix_test.Dockerfile
+#      args:
+#        PHPGROUP: www-data
+#        PHPUSER: www-data
+#        FOLDER: ${FOLDER_2603BITRIX_TEST_SERV}
+#    container_name: bitrix_php
+#    depends_on:
+#      - bitrix_mysql
+#      - bitrix_redis
+#    restart: unless-stopped
+#    networks:
+#      - laravel
+#    working_dir: ${FOLDER_2603BITRIX_TEST_SERV}
+#    volumes:
+#      - '${FOLDER_2603BITRIX_TEST}:${FOLDER_2603BITRIX_TEST_SERV}'
+#      - '${FOLDER_2603BITRIX_TEST}/docker/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:ro'
+#      - '${FOLDER_2603BITRIX_TEST}/docker/php.ini:/usr/local/etc/php/php.ini:ro'
+#    environment:
+#      - PHPGROUP=www-data
+#      - PHPUSER=www-data
+#      - FOLDER=${FOLDER_2603BITRIX_TEST_SERV}
+#      - FOLDER_LOCAL=${FOLDER_2603BITRIX_TEST}
+#      - PHP_IDE_CONFIG=serverName=bitrix
+#
+#  bitrix_mysql:
+##    image: mysql:5.7
+#    image: mysql:8.0
+#    container_name: bitrix_mysql
+#    networks:
+#      - laravel
+#
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: bitrix
+#      MYSQL_USER: bitrix
+#      MYSQL_PASSWORD: bitrix
+#    ports:
+#      - "3306:3306"
+#
+#  bitrix_redis:
+#    image: redis:alpine
+#    container_name: bitrix_redis
+#    networks:
+#      - laravel
+
+
+
+
+
+
+
+#  2603vkusno:
+#    container_name: 2603vkusno
+#    networks:
+#      - laravel
+#    build:
+#      context: .
+#      dockerfile: docker.2603vkusno.Dockerfile
+#    working_dir: ${FOLDER_2603VKUSNO_SERV}
+#    environment:
+#      - PHPGROUP=www-data
+#      - PHPUSER=www-data
+#      - FOLDER=${FOLDER_2603VKUSNO_SERV}
+#    restart: unless-stopped
+#    volumes:
+#      - '${FOLDER_2603VKUSNO}:${FOLDER_2603VKUSNO_SERV}'
+#    shm_size: 1gb
+#
+
+  2602test_laravel:
+    container_name: 2602test_laravel
+    networks:
+      - laravel
+    build:
+      context: .
+      dockerfile: docker.2602laravel.Dockerfile
+    working_dir: ${FOLDER_2602LARAVEL_TEST_SERV}
+    environment:
+      - PHPGROUP=www-data
+      - PHPUSER=www-data
+      - FOLDER=${FOLDER_2602LARAVEL_TEST_SERV}
+    restart: unless-stopped
+    volumes:
+      - '${FOLDER_2602LARAVEL_TEST}:${FOLDER_2602LARAVEL_TEST_SERV}'
+    shm_size: 1gb
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 512M
+        reservations:
+          memory: 256M
+
+  2603test_logistic:
+    container_name: 2603test_logistic
+    networks:
+      - laravel
+    build:
+      context: .
+      dockerfile: docker.2602laravel.Dockerfile
+    working_dir: ${FOLDER_2603LOGISTIC_TEST_SERV}
+    environment:
+      - PHPGROUP=www-data
+      - PHPUSER=www-data
+      - FOLDER=${FOLDER_2603LOGISTIC_TEST_SERV}
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - '${FOLDER_2603LOGISTIC_TEST_TEST}:${FOLDER_2603LOGISTIC_TEST_SERV}'
+    shm_size: 1gb
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 512M
+        reservations:
+          memory: 256M
+
+#
+#
+##
+##  chat-service:
+##    container_name: chat-service
+##    expose:
+##      - 9001
+##    build:
+##      context: .
+##      dockerfile: docker.chat.Dockerfile
+##    working_dir: ${FOLDER_CHAT_SERV}
+##    environment:
+##      - PHPGROUP=www-data
+##      - PHPUSER=www-data
+##      - FOLDER=${FOLDER_CHAT_SERV}
+##      - OPENAI_API_KEY=${OPENAI_API_KEY}
+##      - OPENAI_MODEL=gpt-4.1-mini
+##      - YANDEX_IAM_TOKEN=${YANDEX_IAM_TOKEN}
+##      - YANDEX_FOLDER_ID=${YANDEX_FOLDER_ID}
+##
+##    restart: unless-stopped
+##    volumes:
+##      - '${FOLDER_CHAT}:${FOLDER_CHAT_SERV}'
+##      - /Users/phpcat/PhpstormProjects:/Users/phpcat/PhpstormProjects
+##
+##  symfony2601:
+##    container_name: symfony2601
+##    networks:
+##      - laravel
+##    expose:
+##      - 9000
+##    build:
+##      context: .
+##      dockerfile: Symfony2601.Dockerfile
+##    working_dir: ${FOLDER_SYMFONY2601_SERV}
+##    environment:
+##      - PHPGROUP=www-data
+##      - PHPUSER=www-data
+##      - FOLDER=${FOLDER_SYMFONY2601_SERV}
+##    restart: unless-stopped
+##    volumes:
+##      - '${FOLDER_SYMFONY2601}:${FOLDER_SYMFONY2601_SERV}'
+#
+#
+##
+##  parser:
+##    container_name: parser_playwright
+##    build: ./parser
+###      context: ./praser
+###      dockerfile: docker.parser.Dockerfile
+##    shm_size: 256mb
+##    networks:
+##      - laravel
+##    deploy:
+##      resources:
+##        limits:
+##          memory: 512M
+#
+##  swagger-ui:
+##    image: swaggerapi/swagger-ui
+##    container_name: swagger_ui
+##    ports:
+##      - "8082:8080"
+##    environment:
+##      SWAGGER_JSON: /swagger.json
+##    volumes:
+##      - ./swagger.json:/swagger.json
+#
+##  symfony_cli:
+##    container_name: sycli
+###    depends_on:
+###      - mysql_db_master
+###    links:
+###      - mysql_db_master:db_mysql
+##    networks:
+##      - laravel
+##    build:
+##      context: .
+##      dockerfile: sy-cli.Dockerfile
+##    working_dir: ${FOLDER_SYMFONYCLI_SERV}
+##    environment:
+##      - PHPGROUP=www-data
+##      - PHPUSER=www-data
+##      - FOLDER=${FOLDER_SYMFONYCLI_SERV}
+##    restart: unless-stopped
+##    volumes:
+##      - '${FOLDER_SYMFONYCLI}:${FOLDER_SYMFONYCLI_SERV}'

@@ -1,4 +1,7 @@
-
+caddy_refresh_cfd:
+	cp caddy/dev.Caddyfile caddy/Caddyfile
+	docker exec caddy caddy fmt --overwrite /etc/caddy/Caddyfile
+	docker exec caddy caddy reload --config /etc/caddy/Caddyfile
 
 prod:
 	@echo "+++ prod environment started"
@@ -9,12 +12,17 @@ prod:
 
 
 dev:
+	@echo "+++"
 	@echo "Development environment started"
 	make create_web_laravel
+	@echo "+++"
+	@echo "+++"
 	cp Caddyfile.local Caddyfile
 	cp docker-compose.local.yml docker-compose.yml
+	@echo "+++"
+	@echo "+++"
 	docker-compose up -d --remove-orphans  $(if $(build),--build)
-	make caddy_refresh_cfd
+	#make caddy_refresh_cfd
 
 
 fix-permissions:

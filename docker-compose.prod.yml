@@ -60,6 +60,32 @@ services:
           memory: 256M
 
 
+  2603test_logistic:
+    container_name: 2603test_logistic
+    networks:
+      - laravel
+    build:
+      context: .
+      dockerfile: docker.2602laravel_logistic.Dockerfile
+    working_dir: ${FOLDER_2603LOGISTIC_TEST_SERV}
+    environment:
+      - PHPGROUP=www-data
+      - PHPUSER=www-data
+      - FOLDER=${FOLDER_2603LARAVEL_TEST_SERV}
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - '${FOLDER_2603LOGISTIC_TEST_TEST}:${FOLDER_2603LOGISTIC_TEST_SERV}'
+    shm_size: 1gb
+    deploy:
+      resources:
+        limits:
+          cpus: "0.10"
+          memory: 512M
+        reservations:
+          memory: 256M
+
 
   parser:
     container_name: parser_playwright
