@@ -71,7 +71,7 @@ services:
     environment:
       - PHPGROUP=www-data
       - PHPUSER=www-data
-      - FOLDER=${FOLDER_2603LARAVEL_TEST_SERV}
+      - FOLDER=${FOLDER_2603LOGISTIC_TEST_TEST}
     restart: unless-stopped
     ports:
       - "8000:8000"
