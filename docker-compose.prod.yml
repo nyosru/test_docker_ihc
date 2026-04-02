@@ -69,12 +69,12 @@ services:
     environment:
       - PHPGROUP=www-data
       - PHPUSER=www-data
-      - FOLDER=${FOLDER_2603LOGISTIC_TEST_TEST}
+      - FOLDER=${FOLDER_2603LOGISTIC_TEST_SERV}
     restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
-      - '${FOLDER_2603LOGISTIC_TEST_TEST}:${FOLDER_2603LOGISTIC_TEST_SERV}'
+      - '${FOLDER_2603LOGISTIC_TEST}:${FOLDER_2603LOGISTIC_TEST_SERV}'
     shm_size: 1gb
     deploy:
       resources:
